@@ -15,7 +15,6 @@ function buildError(
     },
   };
 }
-
 function build(content) {
   return { content };
 }
