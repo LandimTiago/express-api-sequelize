@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
-const db = require('../database');
-const { logger } = require('../libs');
+const db = require('../../database');
+const { logger } = require('../../libs');
 
 // validação de dados para criação
 const bookCreateValidator = Yup.object().shape({
