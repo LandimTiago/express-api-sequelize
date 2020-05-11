@@ -20,4 +20,10 @@ const start = async () => {
     process.exit(1);
   }
 };
-start();
+
+module.exports = {
+  App: {
+    server,
+    start,
+  },
+};
