@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
 const db = require('../../database');
-const { logger } = require('../../libs');
+const { logger, response, HttpStatus } = require('../../libs');
 
 // validação de dados para criação
 const bookCreateValidator = Yup.object().shape({
@@ -48,46 +48,32 @@ async function create({ name, description, pages }) {
     const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
     const book = rows[0];
 
-    return {
-      content: {
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      },
-    };
+    return response.build({
+      id: book.id,
+      name: book.name,
+      description: book.description || '',
+      pages: book.pages,
+    });
   } catch (error) {
     logger.error(error);
-
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the suport',
-        },
-      },
-    };
+    return response.buildError();
   }
 }
 async function findAll() {
   try {
     const { rows } = await db.query(FIND_ALL_QUERY);
 
-    const content = rows.map(book => ({
-      id: book.id,
-      name: book.name,
-      description: book.description || '',
-      pages: book.pages,
-    }));
-
-    return { content };
+    return response.build(
+      rows.map(book => ({
+        id: book.id,
+        name: book.name,
+        description: book.description || '',
+        pages: book.pages,
+      }))
+    );
   } catch (error) {
     logger.error(error);
-    return {
-      content: [],
-    };
+    return response.buildError();
   }
 }
 async function findById(id) {
@@ -96,46 +82,27 @@ async function findById(id) {
     const book = rows[0];
 
     if (!book) {
-      return {
-        error: {
-          status: 404,
-          data: {
-            timestamp: new Date().toISOString(),
-            error: 'Not found',
-            message: 'Cannot found book',
-          },
-        },
-      };
+      return response.buildError(
+        'Cannot find book with provided id',
+        HttpStatus.NOT_FOUND
+      );
     }
-    return {
-      content: {
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      },
-    };
+    return response.build({
+      id: book.id,
+      name: book.name,
+      description: book.description || '',
+      pages: book.pages,
+    });
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the suport',
-        },
-      },
-    };
+    return response.buildError();
   }
 }
 async function updateById(id, bookData) {
   try {
     const result = await findById(id);
 
-    if (result.error) {
-      return result;
-    }
+    if (result.error) return result;
 
     const { name, description, pages } = { ...result.content, ...bookData };
 
@@ -158,44 +125,22 @@ async function updateById(id, bookData) {
     };
   } catch (error) {
     logger.error(error);
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the suport',
-        },
-      },
-    };
+    return response.buildError();
   }
 }
 async function deleteById(id) {
   try {
     const result = await findById(id);
 
-    if (result.error) {
-      return result;
-    }
+    if (result.error) return result;
 
     await db.query(DELETE_QUERY, [id]);
 
-    return {
-      content: {
-        deleted: true,
-      },
-    };
+    return response.build({
+      deleted: true,
+    });
   } catch (error) {
-    return {
-      error: {
-        status: 500,
-        data: {
-          timestamp: new Date().toISOString(),
-          error: 'Internal Server Error',
-          message: 'Internal Server Error, contact the suport',
-        },
-      },
-    };
+    return response.buildError();
   }
 }
 
