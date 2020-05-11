@@ -8,7 +8,7 @@ function buildError(
     error: {
       status: status.number,
       data: {
-        timestamp: new Date().toISOString(),
+        timestamp: Date.now(),
         name: status.name,
         message,
       },
@@ -22,7 +22,6 @@ function send(res, result) {
   if (result.error) {
     return res.status(result.error.status).json(result.error.data);
   }
-
   return res.json(result.content);
 }
 
