@@ -7,7 +7,7 @@ const idValidator = Yup.object().shape({
 });
 
 // const validateId = id => async (req, res, next) => {}
-async function validateId(req, res, next) {
+const validateId = async (req, res, next) => {
   const isValidID = await idValidator.isValid(req.params);
 
   if (!isValidID) {
@@ -21,7 +21,7 @@ async function validateId(req, res, next) {
   }
 
   return next();
-}
+};
 
 // Clojure
 const validateBody = validator => async (req, res, next) => {
