@@ -12,6 +12,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [Nodemon](https://nodemon.io)
 - [ESLint](https://eslint.org)
 - [Prettier](https://prettier.io)
+- [Faker](https://github.com/Marak/faker.js)
 
 ## TODO
 - [x] Basic CRUD

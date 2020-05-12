@@ -1,6 +1,7 @@
 const request = require('supertest');
 
 const { App } = require('../../src/server');
+const { DatabaseMock, BookMock } = require('../mocks');
 const db = require('../../src/database');
 
 // const bookCreateValidator = Yup.object().shape({
@@ -11,29 +12,72 @@ const db = require('../../src/database');
 
 // POST /books
 describe('POST /books', () => {
-  test('name, description, pages corrects', async () => {
-    db.query = jest.fn().mockReturnValue({
-      rows: [
-        {
-          id: 1,
-          name: 'my book',
-          description: 'my book description',
-          pages: 100,
-        },
-      ],
+  test('should create a book with description', async () => {
+    const Book = BookMock.create();
+    db.query = DatabaseMock.query({
+      id: 1,
+      ...Book,
     });
-
-    const res = await request(App.server).post('/books').send({
-      name: 'my book',
-      description: 'my book description',
-      pages: 100,
-    });
-
+    const res = await request(App.server).post('/books').send(Book);
     expect(res.status).toEqual(200);
-    expect(res.body).toHaveProperty('id');
-    expect(res.body).toHaveProperty('name');
-    expect(res.body).toHaveProperty('description');
-    expect(res.body).toHaveProperty('pages');
+  });
+
+  test('should create a book without description', async () => {
+    const Book = BookMock.create({ description: undefined });
+    db.query = DatabaseMock.query({
+      id: 1,
+      ...Book,
+    });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(200);
+    expect(res.body).toHaveProperty('description', '');
+  });
+  test('Should return null error for name field', async () => {
+    const Book = BookMock.create({ name: undefined });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return length < 4 error for name field', async () => {
+    const Book = BookMock.create({ name: '' });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return length > 40 error for name field', async () => {
+    const Book = BookMock.create({ name: BookMock.getLargeName() });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return length < 4 error for description field', async () => {
+    const Book = BookMock.create({ description: '' });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return length > 255 error for description field', async () => {
+    const Book = BookMock.create({
+      description: BookMock.getLargeDescriptionm(),
+    });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return null error for pages fields', async () => {
+    const Book = BookMock.create({ pages: undefined });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return size <1 error for pages fields', async () => {
+    const Book = BookMock.create({ pages: 0 });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return invalid number error for pages fields', async () => {
+    const Book = BookMock.create({ pages: '10a' });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
+  });
+  test('Should return invalid integer number error for pages fields', async () => {
+    const Book = BookMock.create({ pages: 10.25 });
+    const res = await request(App.server).post('/books').send(Book);
+    expect(res.status).toEqual(400);
   });
 });
 // GET /books

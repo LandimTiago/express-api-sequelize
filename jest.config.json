@@ -1,6 +1,11 @@
 {
+  "testEnvironment": "node",
+  "testMatch": ["**/tests/**/*.test.js"],
   "clearMocks": true,
   "coverageDirectory": "coverage",
-  "collectCoverageFrom": ["src/**/*.js"],
-  "testEnvironment": "node"
+  "collectCoverageFrom": [
+    "src/**/*.js",
+    "!src/*.js",
+    "!src/database/*.js"
+  ]
 }
