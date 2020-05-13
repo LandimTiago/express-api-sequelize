@@ -1,9 +1,7 @@
 const query = data =>
   jest
     .fn()
-    .mockReturnValue(
-      typeof data === 'object' ? { rows: [data] } : { rows: data }
-    );
+    .mockReturnValue(Array.isArray(data) ? { rows: data } : { rows: [data] });
 
 module.exports = {
   DatabaseMock: {
