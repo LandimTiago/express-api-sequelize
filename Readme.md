@@ -3,12 +3,14 @@
 Basic entity CRUD and validation using only pg library for database operations.
 
 ## Dependencies
+
 - [Express](https://expressjs.com)
 - [Postgres](https://node-postgres.com)
 - [Pino](https://getpino.io)
 - [Yup](https://github.com/jquense/yup)
 
 ## Dev Dependencies
+
 - [Nodemon](https://nodemon.io)
 - [ESLint](https://eslint.org)
 - [Prettier](https://prettier.io)
@@ -17,6 +19,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [Faker](https://github.com/Marak/faker.js)
 
 ## TODO
+
 - [x] Basic CRUD
 - [x] Basic Validations
 - [x] Http Status lib
@@ -25,7 +28,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] ESLint and Prettier config
 - [x] Logger
 - [x] Not Found middleware
-- [ ] Tests
+- [x] Tests
 - [ ] Enviroment Variables
 - [ ] CORS
 - [ ] TypeScript
