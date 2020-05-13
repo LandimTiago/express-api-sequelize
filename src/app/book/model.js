@@ -1,7 +1,7 @@
 const Yup = require('yup');
 
 const db = require('../../database');
-const { logger, response, HttpStatus } = require('../../libs');
+const { response, HttpStatus } = require('../../libs');
 
 // validação de dados para criação
 const bookCreateValidator = Yup.object().shape({
@@ -44,104 +44,76 @@ const FIND_BY_ID_QUERY = `
 `;
 
 const create = async ({ name, description, pages }) => {
-  try {
-    const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
-    const book = rows[0];
+  const { rows } = await db.query(CREATE_QUERY, [name, description, pages]);
+  const book = rows[0];
 
-    return response.build({
-      id: book.id,
-      name: book.name,
-      description: book.description || '',
-      pages: book.pages,
-    });
-  } catch (error) {
-    logger.error(error);
-    return response.buildError();
-  }
+  return response.build({
+    id: book.id,
+    name: book.name,
+    description: book.description || '',
+    pages: book.pages,
+  });
 };
 const findAll = async () => {
-  try {
-    const { rows } = await db.query(FIND_ALL_QUERY);
+  const { rows } = await db.query(FIND_ALL_QUERY);
 
-    return response.build(
-      rows.map(book => ({
-        id: book.id,
-        name: book.name,
-        description: book.description || '',
-        pages: book.pages,
-      }))
-    );
-  } catch (error) {
-    logger.error(error);
-    return response.buildError();
-  }
-};
-const findById = async id => {
-  try {
-    const { rows } = await db.query(FIND_BY_ID_QUERY, [id]);
-    const book = rows[0];
-
-    if (!book) {
-      return response.buildError(
-        'Cannot find book with provided id',
-        HttpStatus.NOT_FOUND
-      );
-    }
-    return response.build({
+  return response.build(
+    rows.map(book => ({
       id: book.id,
       name: book.name,
       description: book.description || '',
       pages: book.pages,
-    });
-  } catch (error) {
-    logger.error(error);
-    return response.buildError();
+    }))
+  );
+};
+const findById = async id => {
+  const { rows } = await db.query(FIND_BY_ID_QUERY, [id]);
+  const book = rows[0];
+
+  if (!book) {
+    return response.buildError(
+      'Cannot find book with provided id',
+      HttpStatus.NOT_FOUND
+    );
   }
+
+  return response.build({
+    id: book.id,
+    name: book.name,
+    description: book.description || '',
+    pages: book.pages,
+  });
 };
 const updateById = async (id, bookData) => {
-  try {
-    const result = await findById(id);
+  const result = await findById(id);
 
-    if (result.error) return result;
+  if (result.error) return result;
 
-    const { name, description, pages } = { ...result.content, ...bookData };
+  const { name, description, pages } = { ...result.content, ...bookData };
 
-    const { rows } = await db.query(UPDATE_QUERY, [
-      name,
-      description,
-      pages,
-      id,
-    ]);
+  const { rows } = await db.query(UPDATE_QUERY, [name, description, pages, id]);
 
-    const updatedBook = rows[0];
+  const updatedBook = rows[0];
 
-    return {
-      content: {
-        id: updatedBook.id,
-        name: updatedBook.name,
-        description: updatedBook.description || '',
-        pages: updatedBook.pages,
-      },
-    };
-  } catch (error) {
-    logger.error(error);
-    return response.buildError();
-  }
+  return {
+    content: {
+      id: updatedBook.id,
+      name: updatedBook.name,
+      description: updatedBook.description || '',
+      pages: updatedBook.pages,
+    },
+  };
 };
 const deleteById = async id => {
-  try {
-    const result = await findById(id);
+  const result = await findById(id);
 
-    if (result.error) return result;
+  if (result.error) return result;
 
-    await db.query(DELETE_QUERY, [id]);
+  await db.query(DELETE_QUERY, [id]);
 
-    return response.build({
-      deleted: true,
-    });
-  } catch (error) {
-    return response.buildError();
-  }
+  return response.build({
+    deleted: true,
+  });
 };
 
 module.exports = {
