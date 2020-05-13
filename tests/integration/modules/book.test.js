@@ -1,8 +1,8 @@
 const request = require('supertest');
 
-const { App } = require('../../src/server');
-const { DatabaseMock, BookMock } = require('../mocks');
-const db = require('../../src/database');
+const { App } = require('../../../src/server');
+const { DatabaseMock, BookMock } = require('../../mocks');
+const db = require('../../../src/database');
 
 // const bookCreateValidator = Yup.object().shape({
 //   name: Yup.string().required().min(4).max(40),
