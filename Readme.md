@@ -31,4 +31,3 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Tests
 - [ ] Enviroment Variables
 - [ ] CORS
-- [ ] TypeScript
