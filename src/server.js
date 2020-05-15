@@ -1,5 +1,6 @@
 const express = require('express');
 require('express-async-errors');
+const cors = require('cors');
 
 const { loggerMiddleware, logger } = require('./libs');
 const { notFound, errorMiddleware } = require('./middlewares');
@@ -8,6 +9,7 @@ const { routes } = require('./routes');
 const server = express();
 
 server.use(express.json());
+server.use(cors());
 server.use(loggerMiddleware);
 server.use(routes);
 server.use('*', notFound);
