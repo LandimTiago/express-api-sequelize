@@ -1,5 +1,5 @@
-const { Book } = require('./model');
 const { response } = require('../../libs/response');
+const { Book } = require('./model');
 
 // async function create(req, res) {
 //   return response.send(res, await Book.create(req.body));
