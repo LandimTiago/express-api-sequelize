@@ -33,8 +33,9 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Enviroment Variables
 - [x] CORS
 - [x] Sequelize ORM
+- [x] Migration
 - [x] Service
-- [ ] Base Service
+- [x] Base Service
 - [ ] Base Controller
 - [ ] Base Router
 - [ ] Tests with ORM
