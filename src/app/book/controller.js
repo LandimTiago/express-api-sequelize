@@ -1,5 +1,5 @@
-const { response } = require('../../libs/response');
-const { Book } = require('./model');
+const { Response } = require('../../libs/response');
+const { BookService } = require('./service');
 
 // async function create(req, res) {
 //   return response.send(res, await Book.create(req.body));
@@ -18,14 +18,15 @@ const { Book } = require('./model');
 // }
 
 const create = async (req, res) =>
-  response.send(res, await Book.create(req.body));
+  Response.send(res, await BookService.create(req.body));
 const updateById = async (req, res) =>
-  response.send(res, await Book.updateById(req.params.id, req.body));
+  Response.send(res, await BookService.updateById(req.params.id, req.body));
 const deleteById = async (req, res) =>
-  response.send(res, await Book.deleteById(req.params.id));
-const findAll = async (req, res) => response.send(res, await Book.findAll());
+  Response.send(res, await BookService.deleteById(req.params.id));
+const findAll = async (req, res) =>
+  Response.send(res, await BookService.findAll());
 const findById = async (req, res) =>
-  response.send(res, await Book.findById(req.params.id));
+  Response.send(res, await BookService.findById(req.params.id));
 
 module.exports = {
   BookController: {

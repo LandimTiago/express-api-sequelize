@@ -2,7 +2,8 @@ const express = require('express');
 require('express-async-errors');
 const cors = require('cors');
 
-const { loggerMiddleware, logger } = require('./libs');
+const { Database } = require('./database');
+const { loggerMiddleware, Logger } = require('./libs');
 const { notFound, errorMiddleware } = require('./middlewares');
 const { routes } = require('./routes');
 
@@ -17,9 +18,10 @@ server.use(errorMiddleware);
 
 const start = async () => {
   try {
-    server.listen(5000, () => logger.info('server is runing on port 5000'));
+    Database.init();
+    server.listen(5000, () => Logger.info('server is runing on port 5000'));
   } catch (error) {
-    logger.error(error);
+    Logger.error(error);
     process.exit(1);
   }
 };

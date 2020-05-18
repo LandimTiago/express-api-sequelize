@@ -1,7 +1,7 @@
 const pino = require('pino');
 const expresspino = require('express-pino-logger');
 
-const logger = pino({
+const Logger = pino({
   redact: {
     remove: true,
     paths: [
@@ -15,6 +15,6 @@ const logger = pino({
   },
 });
 
-const loggerMiddleware = expresspino({ logger });
+const loggerMiddleware = expresspino({ Logger });
 
-module.exports = { logger, loggerMiddleware };
+module.exports = { Logger, loggerMiddleware };

@@ -1,4 +1,4 @@
-const { response } = require('../../src/libs/response');
+const { Response } = require('../../src/libs/response');
 const { HttpStatus } = require('../../src/libs/httpStatus');
 
 describe('response build function', () => {
@@ -7,17 +7,17 @@ describe('response build function', () => {
       { name: 'tiago', age: 26 },
       { name: 'guilherme', age: 21 },
     ];
-    expect(response.build(content)).toStrictEqual({ content });
+    expect(Response.build(content)).toStrictEqual({ content });
   });
   test('Should be content object', () => {
     const content = { name: 'tiago', age: 26 };
-    expect(response.build(content)).toStrictEqual({ content });
+    expect(Response.build(content)).toStrictEqual({ content });
   });
 });
 
 describe('response build error function', () => {
   test('Should be INTERNAL SERVER ERROR', () => {
-    const responseError = response.buildError();
+    const responseError = Response.buildError();
     expect(responseError.error.status).toEqual(
       HttpStatus.INTERNAL_SERVER_ERROR.number
     );
@@ -30,7 +30,7 @@ describe('response build error function', () => {
   });
 
   test('Should be NOT FOUND', () => {
-    const responseError = response.buildError(
+    const responseError = Response.buildError(
       'Cannot found entity with provided id',
       HttpStatus.NOT_FOUND
     );

@@ -1,7 +1,7 @@
-const { response, logger } = require('../libs');
+const { Response, Logger } = require('../libs');
 
 const errorMiddleware = async (err, req, res, next) => {
-  logger.error(err);
-  return response.send(res, response.buildError());
+  Logger.error(err);
+  return Response.send(res, Response.buildError());
 };
 module.exports = { errorMiddleware };

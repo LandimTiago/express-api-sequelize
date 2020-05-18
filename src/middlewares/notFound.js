@@ -1,9 +1,9 @@
-const { HttpStatus, response } = require('../libs');
+const { HttpStatus, Response } = require('../libs');
 
 const notFound = async (req, res) =>
-  response.send(
+  Response.send(
     res,
-    response.buildError(
+    Response.buildError(
       'Route not provided by this service',
       HttpStatus.NOT_FOUND
     )

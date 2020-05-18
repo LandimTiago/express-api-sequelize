@@ -1,5 +1,5 @@
 const Yup = require('yup');
-const { response, HttpStatus } = require('../libs');
+const { Response, HttpStatus } = require('../libs');
 
 // validação de dados do ID
 const idValidator = Yup.object().shape({
@@ -11,9 +11,9 @@ const validateId = async (req, res, next) => {
   const isValidID = await idValidator.isValid(req.params);
 
   if (!isValidID) {
-    return response.send(
+    return Response.send(
       res,
-      response.buildError(
+      Response.buildError(
         'Id parameter must be integer',
         HttpStatus.BAD_REQUEST
       )
@@ -29,9 +29,9 @@ const validateBody = validator => async (req, res, next) => {
     await validator.validate(req.body, { abortEarly: false });
     return next();
   } catch (error) {
-    return response.send(
+    return Response.send(
       res,
-      response.buildError(error.errors.join(', '), HttpStatus.BAD_REQUEST)
+      Response.buildError(error.errors.join(', '), HttpStatus.BAD_REQUEST)
     );
 
     // return res.status(400).json(error);

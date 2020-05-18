@@ -28,7 +28,7 @@ const send = (res, result) =>
 // };
 
 module.exports = {
-  response: {
+  Response: {
     buildError,
     build,
     send,
