@@ -4,7 +4,8 @@
   "scripts": {
     "start": "node src/main.js",
     "dev": "nodemon src/main.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "migrate:run": "sequelize db:migrate"
   },
   "dependencies": {
     "cors": "^2.8.5",

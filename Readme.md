@@ -8,6 +8,7 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [Postgres](https://node-postgres.com)
 - [Pino](https://getpino.io)
 - [Yup](https://github.com/jquense/yup)
+- [Sequelize](https://sequelize.org/v5/)
 
 ## Dev Dependencies
 
@@ -31,3 +32,9 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Tests
 - [x] Enviroment Variables
 - [x] CORS
+- [x] Sequelize ORM
+- [x] Service
+- [ ] Base Service
+- [ ] Base Controller
+- [ ] Base Router
+- [ ] Tests with ORM
