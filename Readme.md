@@ -36,6 +36,6 @@ Basic entity CRUD and validation using only pg library for database operations.
 - [x] Migration
 - [x] Service
 - [x] Base Service
-- [ ] Base Controller
-- [ ] Base Router
+- [x] Base Controller
+- [x] Base Router
 - [ ] Tests with ORM
